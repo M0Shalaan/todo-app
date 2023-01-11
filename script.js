@@ -1,67 +1,143 @@
-const text = document.getElementById("text");
-const task = document.getElementById("add-task-btn");
-const savetask = document.getElementById("save-todo-btn");
-const listBox = document.getElementById("listBox");
-const saveInd = document.getElementById("saveIndex");
-let todoArray = [];
+// Run this function when page loads
+displayTasks();
 
+// Define most used variables
+let taskInputValue = document.getElementById('userInput');
+let addTaskBtn = document.getElementById('push');
+let saveTaskBtn = document.getElementById('save');
+let deleteAll = document.getElementById('deleteAll');
+let searchInput = document.getElementById('searchBar')
 
-// Add the list in the local storage
-function addTaskButton() {
-  let todo = localStorage.getItem("todo");
-  var text1 = text.value;
-  if (text.value != "") {
-    todoArray.push(text1);
-    text1 = "";
-    localStorage.setItem("todo", JSON.stringify(todoArray));
-    displayTodo(todoArray);
-  } else {
-    todoArray = JSON.parse(todo);
-  }
+// get items from local storage
+function getStorage(){
+    let tasksObj;
+    let webTasks = localStorage.getItem('localtasks');
+    if(webTasks == null){
+        tasksObj = [];
+    }else{
+        tasksObj = JSON.parse(webTasks);
+    }
+    return tasksObj;
 }
 
-// Display the todo list
-function displayTodo() {
-  let todo = localStorage.getItem("todo");
-  if (todo === null) {
-    todoArray = [];
-  } else {
-    todoArray = JSON.parse(todo);
-  }
-  let htmlCode = "";
-  todoArray.forEach((list, ind) => {
-    htmlCode += `<div class='flex mb-4 items-center'>
-    <p class='w-full text-grey-darkest'>${list}</p>
-    <button onclick='edit(${ind})' class='flex-no-shrink p-2 ml-4 mr-2 border-2 rounded text-white text-grey bg-green-600'>Edit</button>
-    <button onclick='deleteTodo(${ind})' class='flex-no-shrink p-2 ml-2 border-2 rounded text-white bg-red-500'>Delete</button>
-    </div>`;
-  });
-  listBox.innerHTML = htmlCode;
+// set items in local storage
+function setStorage(data){
+    localStorage.setItem('localtasks', JSON.stringify(data))
 }
 
-function deleteTodo(ind) {
-  let todo = localStorage.getItem("todo");
-  todoArray = JSON.parse(todo);
-  todoArray.splice(ind, 1);
-  localStorage.setItem("todo", JSON.stringify(todoArray));
-  displayTodo();
+// Add event listener to add task button
+addTaskBtn.addEventListener('click', addToStorage)
+
+// Add tasks to local storage
+function addToStorage(){
+    let addTaskInputVal = taskInputValue.value;
+    if(addTaskInputVal.trim()!= 0){
+        let tasksObj = getStorage();
+        tasksObj.push(addTaskInputVal);
+        setStorage(tasksObj);
+        taskInputValue.value = "";
+        displayTasks();
+    }else{
+        let snackBar = document.getElementById('snackBar');
+        snackBar.className = "show";
+        setTimeout(function(){
+            snackBar.className = snackBar.className.replace("show", "");
+        }, 3000)
+    }
 }
-function edit(ind) {
-  saveInd.value = ind;
-  let todo = localStorage.getItem("todo");
-  todoArray = JSON.parse(todo);
-  text.value = todoArray[ind];
-  addTaskButton.style.display = "none";
-  saveTaskButton.style.display = "block";
+
+// Display tasks on page
+function displayTasks(){
+    let addedTasksList = document.getElementById('tasks');
+    let tasksObj = getStorage();
+    let html = "";
+    tasksObj.forEach((item, index)=> {
+        html += ` <div id="task">
+        <span id="taskName">
+            ${index + 1}. ${item}
+        </span>
+        <div id="actions">
+            <button id="edit" onclick="editTasks(${index})">
+                <ion-icon name="create"></ion-icon> Edit
+            </button>
+            <button id="delete" onclick="deleteTasks(${index})">
+                <ion-icon name="trash"></ion-icon> Delete
+            </button>
+        </div>
+    </div>`
+    })
+    if(tasksObj.length != 0){
+        addedTasksList.innerHTML = html;
+    } else{
+        addedTasksList.innerHTML = `<span id="noTasks">There are no tasks to show!</span>`
+    }
 }
-function saveTaskButton() {
-  let todo = localStorage.getItem("todo");
-  todoArray = JSON.parse(todo);
-  let id = saveInd.value;
-  todoArray[id] = text.value;
-  addTaskButton.style.display = "block";
-  saveTaskButton.style.display = "none";
-  text.value = "";
-  localStorage.setItem("todo", JSON.stringify(todoArray));
-  displayTodo();
+
+// Edit task
+function editTasks(index){
+    let tasksObj = getStorage();
+    taskInputValue.value = tasksObj[index];
+    let saveIndex = document.getElementById('saveIndex');
+    saveIndex.value = index;
+    addTaskBtn.style.display = "none";
+    saveTaskBtn.style.display = "block";
+}
+
+// Add event listner to save task button
+saveTaskBtn.addEventListener('click', saveTasks);
+
+// Save tasks
+function saveTasks(){
+    let tasksObj = getStorage()
+    saveIndex = document.getElementById('saveIndex').value;
+    tasksObj[saveIndex] = taskInputValue.value;
+    setStorage(tasksObj);
+    displayTasks();
+    taskInputValue.value = "";
+    addTaskBtn.style.display = "block";
+    saveTaskBtn.style.display = "none";
+}
+
+// Delete tasks
+function deleteTasks(index){
+    let tasksObj = getStorage();
+    tasksObj.splice(index, 1);
+    setStorage(tasksObj);
+    displayTasks();
+}
+
+// Add event listner to delete all button
+deleteAll.addEventListener('click', deleteAllTasks)
+
+// Delete all tasks
+function deleteAllTasks(){
+    let tasksObj = getStorage();
+    if(tasksObj != null){
+        tasksObj = [];
+    }
+    setStorage(tasksObj);
+    displayTasks();
+    taskInputValue.value = "";
+    addTaskBtn.style.display = "block";
+    saveTaskBtn.style.display = "none";
+}
+
+// Add event listner to search input
+searchInput.addEventListener('input', searchTasks);
+
+// Search tasks
+function searchTasks(){
+    inputValue = searchInput.value;
+    // Capitalize search input
+    inputValue = inputValue.replace(/^./, str => str.toUpperCase());
+    let tasks = document.querySelectorAll('#task');
+    Array.from(tasks).forEach(function(element){
+        let taskTxt = element.getElementsByTagName('span')[0].innerText;
+        if(taskTxt.includes(inputValue)){
+            element.style.display = "block"
+            element.style.display = "flex"
+        }else{
+            element.style.display = "none"           
+        }
+    })
 }
