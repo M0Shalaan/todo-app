@@ -1,24 +1,24 @@
 const text = document.getElementById("text");
-const addTaskButton = document.getElementById("add-task-btn");
-const saveTaskButton = document.getElementById("save-todo-btn");
+const task = document.getElementById("add-task-btn");
+const savetask = document.getElementById("save-todo-btn");
 const listBox = document.getElementById("listBox");
 const saveInd = document.getElementById("saveIndex");
 let todoArray = [];
 
+
 // Add the list in the local storage
-addTaskButton.addEventListener("click", (e) => {
-  e.preventDefault();
+function addTaskButton() {
   let todo = localStorage.getItem("todo");
-  if (todo === null) {
-    todoArray = [];
+  var text1 = text.value;
+  if (text.value != "") {
+    todoArray.push(text1);
+    text1 = "";
+    localStorage.setItem("todo", JSON.stringify(todoArray));
+    displayTodo(todoArray);
   } else {
     todoArray = JSON.parse(todo);
   }
-  todoArray.push(text.value);
-  text.value = "";
-  localStorage.setItem("todo", JSON.stringify(todoArray));
-  displayTodo();
-});
+}
 
 // Display the todo list
 function displayTodo() {
@@ -31,13 +31,14 @@ function displayTodo() {
   let htmlCode = "";
   todoArray.forEach((list, ind) => {
     htmlCode += `<div class='flex mb-4 items-center'>
-        <p class='w-full text-grey-darkest'>${list}</p>
-        <button onclick='edit(${ind})' class='flex-no-shrink p-2 ml-4 mr-2 border-2 rounded text-white text-grey bg-green-600'>Edit</button>
-        <button onclick='deleteTodo(${ind})' class='flex-no-shrink p-2 ml-2 border-2 rounded text-white bg-red-500'>Delete</button>
-        </div>`;
+    <p class='w-full text-grey-darkest'>${list}</p>
+    <button onclick='edit(${ind})' class='flex-no-shrink p-2 ml-4 mr-2 border-2 rounded text-white text-grey bg-green-600'>Edit</button>
+    <button onclick='deleteTodo(${ind})' class='flex-no-shrink p-2 ml-2 border-2 rounded text-white bg-red-500'>Delete</button>
+    </div>`;
   });
   listBox.innerHTML = htmlCode;
 }
+
 function deleteTodo(ind) {
   let todo = localStorage.getItem("todo");
   todoArray = JSON.parse(todo);
@@ -53,7 +54,7 @@ function edit(ind) {
   addTaskButton.style.display = "none";
   saveTaskButton.style.display = "block";
 }
-saveTaskButton.addEventListener("click", () => {
+function saveTaskButton() {
   let todo = localStorage.getItem("todo");
   todoArray = JSON.parse(todo);
   let id = saveInd.value;
@@ -63,4 +64,4 @@ saveTaskButton.addEventListener("click", () => {
   text.value = "";
   localStorage.setItem("todo", JSON.stringify(todoArray));
   displayTodo();
-});
+}
