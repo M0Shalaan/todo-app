@@ -4,6 +4,8 @@ window.onload = () => {
   let submit = document.getElementById("submit");
   let editItem = null;
   form1.addEventListener("submit", addItem);
+  items.addEventListener("click", removeItem);
+  items = JSON.parse(localStorage.getItem("info"));
 };
 // if(localStorage.getItem("items")===null){
 //     items = JSON.parse(localStorage.getItem("items"));
@@ -37,7 +39,6 @@ function addItem(e) {
   }
   let li = document.createElement("li");
   li.className = "list-group-item";
-
   let deleteButton = document.createElement("button");
   deleteButton.className = "btn-danger btn btn-sm float-right delete";
   deleteButton.appendChild(document.createTextNode("Delete"));
@@ -48,12 +49,15 @@ function addItem(e) {
   li.appendChild(deleteButton);
   li.appendChild(editButton);
   items.appendChild(li);
+  localStorage.setItem("info", JSON.stringify(newItem));
 }
 function displayList(anArray) {
   var content = "";
   for (var i = 0; i < anArray.length; i++) {
     content += `<ul><li>${i}</li></ul>`;
   }
+  document.getElementById("tableBody").innerHTML = content;
+
 }
 
 function removeItem(e) {
