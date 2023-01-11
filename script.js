@@ -122,7 +122,7 @@ function deleteAllTasks(){
     saveTaskBtn.style.display = "none";
 }
 
-// Add event listener to search input
+// Add event listner to search input
 searchInput.addEventListener('input', searchTasks);
 
 // Search tasks
