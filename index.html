@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo App With Local Storage</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/all.min.css">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <div id="addTask">
-            <div id="newTask">
-                <input type="text" id="userInput" placeholder="Task to be done...">
-                <input type="hidden" id="saveIndex">
-                <button id="push">Add Task</button>
-                <button style="display: none;" id="save">Save Task</button>
-            </div>
+    <!-- <link rel="stylesheet" href="./css/style.css" /> -->
+    <link rel="stylesheet" href="./css/all.min.css" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+  </head>
+  <body class="mt-5">
+    <div class="container ">
+      <div id="addTask ">
+        <div id="newTask ">
+          <input type="text" class="form-control"   id="userInput" placeholder="Task to be done..." />
+          <input type="hidden" id="saveIndex"   />
+          <button id="push" class="btn btn-primary m-2">Add Task</button>
+          <button style="display: none" id="save" class="btn btn-success m-2">Save Task</button>
         </div>
-        <div id="tasksList">
-            <div id="searchTask">
-                <button id="deleteAll">Delete All</button>
-                <input type="text" id="searchBar" placeholder="Search tasks...">
-            </div>
-            <div id="tasks">
-            </div>
+      </div>
+      <div id="tasksList">
+        <div id="searchTask ">
+          <button id="deleteAll" class="btn btn-danger m-2">Delete All</button>
+          <input type="text" class="form-control" id="searchBar" placeholder="Search tasks..." />
         </div>
+        <div id="tasks" class="m-1 list-group col-3"></div>
+      </div>
     </div>
-<!--Warning message-->
-<div id="snackBar">Please Enter a Task</div>
-<!--Script for javascript-->
-<script src="script.js"></script>
-<!--Script for icons-->
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</body>
+    <!--Warning message-->
+    <div id="snackBar" class="h4">Please Enter a Task</div>
+    <!--Script for javascript-->
+    <script src="script.js"></script>
+    <!--Script for icons-->
+    <!-- <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script> -->
+  </body>
 </html>

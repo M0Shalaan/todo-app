@@ -11,7 +11,7 @@ let searchInput = document.getElementById('searchBar')
 // get items from local storage
 function getStorage(){
     let tasksObj;
-    let webTasks = localStorage.getItem('localtasks');
+    let webTasks = localStorage.getItem('localTasks');
     if(webTasks == null){
         tasksObj = [];
     }else{
@@ -22,7 +22,7 @@ function getStorage(){
 
 // set items in local storage
 function setStorage(data){
-    localStorage.setItem('localtasks', JSON.stringify(data))
+    localStorage.setItem('localTasks', JSON.stringify(data))
 }
 
 // Add event listener to add task button
@@ -57,11 +57,11 @@ function displayTasks(){
             ${index + 1}. ${item}
         </span>
         <div id="actions">
-            <button id="edit" onclick="editTasks(${index})">
-                <ion-icon name="create"></ion-icon> Edit
+            <button id="edit" class="btn btn-warning" onclick="editTasks(${index})">
+             Edit
             </button>
-            <button id="delete" onclick="deleteTasks(${index})">
-                <ion-icon name="trash"></ion-icon> Delete
+            <button id="delete" class="btn btn-danger" onclick="deleteTasks(${index})">
+              Delete
             </button>
         </div>
     </div>`
