@@ -83,7 +83,7 @@ function editTasks(index){
     saveTaskBtn.style.display = "block";
 }
 
-// Add event listner to save task button
+// Add event listener to save task button
 saveTaskBtn.addEventListener('click', saveTasks);
 
 // Save tasks
@@ -106,7 +106,7 @@ function deleteTasks(index){
     displayTasks();
 }
 
-// Add event listner to delete all button
+// Add event listener to delete all button
 deleteAll.addEventListener('click', deleteAllTasks)
 
 // Delete all tasks
@@ -122,7 +122,7 @@ function deleteAllTasks(){
     saveTaskBtn.style.display = "none";
 }
 
-// Add event listner to search input
+// Add event listener to search input
 searchInput.addEventListener('input', searchTasks);
 
 // Search tasks
