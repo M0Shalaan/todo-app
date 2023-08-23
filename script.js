@@ -28,12 +28,12 @@ function setStorage(data) {
 // Add event listener to add task button
 addTaskBtn.addEventListener("click", addToStorage);
 
-
+/* add task using enter key */
 // Get the input field
 var input = document.getElementById("userInput");
 
 // Execute a function when the user presses a key on the keyboard
-input.addEventListener("keypress", function(event) {
+input.addEventListener("keypress", function (event) {
   // If the user presses the "Enter" key on the keyboard
   if (event.key === "Enter") {
     // Cancel the default action, if needed
@@ -42,8 +42,6 @@ input.addEventListener("keypress", function(event) {
     document.getElementById("push").click();
   }
 });
-
-
 
 // Add tasks to local storage
 function addToStorage() {
@@ -72,7 +70,7 @@ function displayTasks() {
     html += `<div id="task">
          
         <div id="taskName">
-        <span>${index + 1}. <p>${item}</p></span>
+        ${index + 1}.<span>${item}</span>
         </div>
         <div id="actions">
             <button id="edit" class="btn btn-warning" onclick="editTasks(${index})">
@@ -147,10 +145,14 @@ searchInput.addEventListener("input", searchTasks);
 function searchTasks() {
   inputValue = searchInput.value;
   // Capitalize search input
-  inputValue = inputValue.replace(/^./, (str) => str.toUpperCase());
+  /**
+   * i commented this line of code below because it
+   * block searching for text unless it uppercase
+   */
+  // inputValue = inputValue.replace(/^./, (str) => str.toUpperCase());
   let tasks = document.querySelectorAll("#task");
   Array.from(tasks).forEach(function (element) {
-    let taskTxt = element.getElementsByTagName("p")[0].innerText;
+    let taskTxt = element.getElementsByTagName("span")[0].innerText;
     if (taskTxt.includes(inputValue)) {
       element.style.display = "block";
       element.style.display = "flex";
